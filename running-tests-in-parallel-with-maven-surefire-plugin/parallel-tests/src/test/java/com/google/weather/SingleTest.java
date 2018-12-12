@@ -1,4 +1,5 @@
-import com.google.weather.GoogleWeather;
+package com.google.weather;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SimpleTest
+public class SingleTest
 {
 	WebDriver driver;
 
@@ -23,7 +24,7 @@ public class SimpleTest
 		String city = "Seattle";
 
 		GoogleWeather weather = new GoogleWeather(driver).forCity(city).useCelsius();
-		System.out.println("Thread " + Thread.currentThread().getId() + " : " + weather.getCurrentTemperature());
+		System.out.println(weather.getCurrentTemperature());
 
 		assertThat(weather.getLocation()).contains(city);
 		assertThat(weather.getTemperatureUnits().endsWith("C"));

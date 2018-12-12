@@ -13,28 +13,15 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
-public class ParameterizedPageObjectTest
+public class ParameterizedTest
 {
 	WebDriver driver;
-
 	String city;
 
-	public ParameterizedPageObjectTest(String city)
+	public ParameterizedTest(String city)
 	{
 		this.city = city;
 	}
-
-	@Test
-	public void getTemperatureForCity()
-	{
-		GoogleWeather weather = new GoogleWeather(driver).forCity(city).useCelsius();
-		weather.getCurrentTemperature();
-
-		assertThat(weather.getLocation()).contains(city);
-		assertThat(weather.getTemperatureUnits().endsWith("C"));
-	}
-
-	////////// setup and teardown
 
 	@Before
 	public void setup()
@@ -42,13 +29,21 @@ public class ParameterizedPageObjectTest
 		driver = new ChromeDriver();
 	}
 
+	@Test
+	public void getTemperatureForCity()
+	{
+		GoogleWeather weather = new GoogleWeather(driver).forCity(city).useCelsius();
+		System.out.println(weather.getCurrentTemperature());
+
+		assertThat(weather.getLocation()).contains(city);
+		assertThat(weather.getTemperatureUnits().endsWith("C"));
+	}
+
 	@After
 	public void teardown()
 	{
 		if (driver != null) { driver.quit(); }
 	}
-
-	////////// parameters
 
 	@Parameterized.Parameters(name = "{index}: com.google.weather.WeatherTest({0})={1}")
 	public static Iterable<? extends Object> data() {
